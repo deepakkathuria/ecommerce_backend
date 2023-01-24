@@ -15,7 +15,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(routes);
 
-const port = process.env.PORT;
-app.listen(port || 3001);
+const port = process.env.PORT || 3001;
+app.listen(port);
 
 export {};
