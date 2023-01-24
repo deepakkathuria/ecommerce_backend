@@ -16,6 +16,6 @@ app.use(express.json());
 app.use(routes);
 
 const port = process.env.PORT;
-app.listen(port);
+app.listen(port || 3001);
 
 export {};
