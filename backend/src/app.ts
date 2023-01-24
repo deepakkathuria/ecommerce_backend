@@ -16,8 +16,8 @@ app.use(express.json());
 app.use(routes);
 
 const port = process.env.PORT;
-app.listen(port, () => {
-  console.log(`[server]: Server is running at https://127.0.0.1:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`[server]: Server is running at https://0.0.0.0:${port}`);
 });
 
 export {};
