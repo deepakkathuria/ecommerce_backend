@@ -5,6 +5,7 @@ const product = require("../controllers/product");
 const auth = require("../controllers/auth");
 const cart = require("../controllers/cart");
 const user = require("../controllers/user");
+const stripe = require("../controllers/stripe");
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.delete("/cart/clear", cart.clearCart);
 router.put("/cart/increase", cart.increaseItemQuantity);
 router.put("/cart/decrease", cart.decreaseItemQuantity);
 router.get("/user", user.getUser);
+router.post("/create-payment-intent", stripe.createPaymentIntent);
 
 module.exports = router;
 export {};
