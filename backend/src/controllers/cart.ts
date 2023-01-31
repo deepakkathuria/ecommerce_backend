@@ -7,59 +7,40 @@ export const getCart = (req: any, res: any) => {
   const userId = decoded.id;
 
   sql.query(
-    `SELECT Cart.item_id, Cart.quantity, products.short_name, products.price, products.cart_image
-    FROM Cart
-    JOIN products ON Cart.item_id = products.item_id
-    WHERE Cart.user_id = ${userId};`,
+    `select * from cart where user_id=${userId}`,
     (err: any, rows: any) => {
       if (err) throw err;
-      const quantity = rows.reduce(
-        (quantity: any, item: { quantity: any }) => item.quantity + quantity,
-        0
-      );
-      const total = rows.reduce(
-        (accumulator: number, current: { price: number; quantity: number }) =>
-          accumulator + current.price * current.quantity,
-        0
-      );
-      res.json({ data: rows, quantity: quantity, total: total });
+      res.json({ cartItems: rows });
     }
   );
 };
 
 export const addToCart = (req: any, res: any) => {
-  const { item_id, quantity } = req.body;
+  const { items } = req.body;
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   const userId = decoded.id;
+  console.log(userId);
 
-  sql.query(
-    `select * from Cart where user_id=${userId} and item_id=${item_id}`,
-    (err: any, rows: any) => {
-      if (err) throw err;
-      if (rows.length > 0) {
-        sql.query(
-          `UPDATE Cart SET quantity = quantity + ${quantity} WHERE user_id = ${userId} AND item_id = ${item_id}`,
-          (err: any, rows: any) => {
-            if (err) throw err;
-            res.json({ message: "Item added to cart." });
-          }
-        );
-      } else {
-        sql.query(
-          `SELECT * from Products WHERE item_id=${item_id}`,
-          (err: any, rows: any) => {
-            if (err) throw err;
-            if (rows.length > 0) {
-              sql.query(
-                `INSERT INTO Cart (user_id, item_id, quantity) VALUES (${userId}, ${item_id}, ${quantity})`
-              );
-            }
-          }
-        );
+  items.map((item: any) => {
+    sql.query(
+      `select * from Cart where user_id=${userId} and id=${item.id}`,
+      (err: any, rows: any) => {
+        if (err) throw err;
+        if (rows.length < 1) {
+          sql.query(
+            `INSERT INTO Cart (user_id, id, quantity, name, price, image) VALUES (${userId}, ${item.id}, ${item.quantity}, "${item.name}", ${item.price}, "${item.image}")`
+          );
+        } else {
+          sql.query(
+            `update Cart set quantity = ${item.quantity} where id=${item.id} and user_id=${userId}`
+          );
+        }
       }
-    }
-  );
+    );
+  });
+
+  res.json({ cartItems: items });
 };
 
 export const removeFromCart = (req: any, res: any) => {
@@ -69,7 +50,7 @@ export const removeFromCart = (req: any, res: any) => {
   const userId = decoded.id;
 
   sql.query(
-    `delete from Cart where user_id=${userId} and item_id=${productId}`,
+    `delete from Cart where user_id=${userId} and id=${productId}`,
     (err: any, rows: any) => {
       if (err) {
         throw err;
@@ -90,36 +71,6 @@ export const clearCart = (req: any, res: any) => {
     (err: any, rows: any) => {
       if (err) throw err;
       res.status(204).json({ message: "Cart is clear.", data: rows });
-    }
-  );
-};
-
-export const increaseItemQuantity = (req: any, res: any) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-  const userId = decoded.id;
-  const { item_id } = req.body;
-
-  sql.query(
-    `update cart set quantity = quantity + 1 where user_id=${userId} and item_id=${item_id}`,
-    (err: any, rows: any) => {
-      if (err) throw err;
-      return res.status(200).json({ message: "Quantity updated.", data: rows });
-    }
-  );
-};
-
-export const decreaseItemQuantity = (req: any, res: any) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-  const userId = decoded.id;
-  const { item_id } = req.body;
-
-  sql.query(
-    `update cart set quantity = quantity - 1 where user_id=${userId} and item_id=${item_id}`,
-    (err: any, rows: any) => {
-      if (err) throw err;
-      return res.status(200).json({ message: "Quantity updated.", data: rows });
     }
   );
 };

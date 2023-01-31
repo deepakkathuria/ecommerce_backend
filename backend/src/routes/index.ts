@@ -19,8 +19,6 @@ router.get("/cart", cart.getCart);
 router.post("/cart/add", cart.addToCart);
 router.delete("/cart/remove/:product_id", cart.removeFromCart);
 router.delete("/cart/clear", cart.clearCart);
-router.put("/cart/increase", cart.increaseItemQuantity);
-router.put("/cart/decrease", cart.decreaseItemQuantity);
 router.get("/user", user.getUser);
 router.post("/create-payment-intent", stripe.createPaymentIntent);
 
