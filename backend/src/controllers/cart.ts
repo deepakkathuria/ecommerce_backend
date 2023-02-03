@@ -7,7 +7,7 @@ export const getCart = (req: any, res: any) => {
   const userId = decoded.id;
 
   sql.query(
-    `select * from cart where user_id=${userId}`,
+    `select * from Cart where user_id=${userId}`,
     (err: any, rows: any) => {
       if (err) throw err;
       res.json({ cartItems: rows });
