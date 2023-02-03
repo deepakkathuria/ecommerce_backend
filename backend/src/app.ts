@@ -6,9 +6,10 @@ const routes = require("./routes");
 const app: any = express();
 
 const corsOptions = {
-  origin: [`${process.env.FRONTLOCALURL}, ${process.env.FRONTPRODURL}`],
+  origin: "*",
   credentials: true,
   optionSuccessStatus: 200,
+  methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
 };
 
 app.use(cors(corsOptions));
