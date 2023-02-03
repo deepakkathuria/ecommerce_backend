@@ -12,7 +12,7 @@ export const signUp = async (req: any, res: any) => {
         if (err) throw err;
         if (rows.length < 1) {
           sql.query(
-            `INSERT INTO Users (name, email, password)
+            `INSERT INTO users (name, email, password)
               VALUES (
                   "${name}",
                   "${email}",
