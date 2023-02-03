@@ -6,7 +6,7 @@ const routes = require("./routes");
 const app: any = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: [`${process.env.FRONTLOCALURL}, ${process.env.FRONTPRODURL}`],
   credentials: true,
   optionSuccessStatus: 200,
 };
