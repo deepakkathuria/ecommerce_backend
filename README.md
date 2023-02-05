@@ -20,6 +20,8 @@ This project was built using the following technologies :
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [cors](https://www.npmjs.com/package/cors)
 
+---
+
 ## Getting started
 1. Clone the repository
  ```bash
