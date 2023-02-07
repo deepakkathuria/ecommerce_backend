@@ -20,6 +20,7 @@ router.post("/cart/add", cart.addToCart);
 router.delete("/cart/remove/:product_id", cart.removeFromCart);
 router.delete("/cart/clear", cart.clearCart);
 router.get("/user", user.getUser);
+router.put("/user/update", user.updateUser);
 router.post("/create-payment-intent", stripe.createPaymentIntent);
 
 module.exports = router;
