@@ -20,7 +20,6 @@ export const addToCart = (req: any, res: any) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   const userId = decoded.id;
-  console.log(userId);
 
   items.map((item: any) => {
     sql.query(

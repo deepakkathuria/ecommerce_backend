@@ -1,10 +1,17 @@
 const sql = require("../models/db");
 
 export const getProducts = (req: any, res: any) => {
-  sql.query("SELECT * from products", (err: any, rows: any) => {
-    if (err) throw err;
-    res.json({ status: 200, rows });
-  });
+  sql.query(
+    `SELECT products.*, AVG(customer_reviews.rating) as avg_rating
+    FROM products
+    LEFT JOIN customer_reviews
+    ON products.item_id = customer_reviews.product_id
+    GROUP BY products.item_id`,
+    (err: any, rows: any) => {
+      if (err) throw err;
+      res.json({ status: 200, rows });
+    }
+  );
 };
 
 export const getProductById = (req: any, res: any) => {
@@ -20,9 +27,13 @@ export const getProductById = (req: any, res: any) => {
 
 export const getProductByCategory = (req: any, res: any) => {
   const productCategory = req.params.category;
-  console.log(productCategory);
   sql.query(
-    `SELECT * from products WHERE category="${productCategory}"`,
+    `SELECT products.*, AVG(customer_reviews.rating) as avg_rating, COUNT(customer_reviews.rating) as ratings_length
+    FROM products
+    LEFT JOIN customer_reviews
+    ON products.item_id = customer_reviews.product_id
+    WHERE products.category="${productCategory}"
+    GROUP BY products.item_id`,
     (err: any, rows: any) => {
       if (err) throw err;
       res.json({ status: 200, rows });
