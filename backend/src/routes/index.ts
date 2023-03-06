@@ -7,6 +7,7 @@ const cart = require("../controllers/cart");
 const user = require("../controllers/user");
 const stripe = require("../controllers/stripe");
 const review = require("../controllers/review");
+const { upload } = require("../config/multer");
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.post("/cart/add", cart.addToCart);
 router.delete("/cart/remove/:product_id", cart.removeFromCart);
 router.delete("/cart/clear", cart.clearCart);
 router.get("/user", user.getUser);
+router.post("/user/upload", upload.single("file"), user.uploadFile);
 router.put("/user/update", user.updateUser);
 router.post("/create-payment-intent", stripe.createPaymentIntent);
 router.get("/reviews", review.getReviews);

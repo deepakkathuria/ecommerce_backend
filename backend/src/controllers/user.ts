@@ -33,3 +33,30 @@ export const updateUser = (req: any, res: any) => {
     }
   );
 };
+
+export const uploadFile = (req: any, res: any) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  const userId = decoded.id;
+
+  try {
+    if (req.file) {
+      sql.query(
+        `update users set avatar="${req.file.path}" where user_id=${userId}`,
+        (error: any, result: any) => {
+          if (error) throw error;
+          res.status(200);
+        }
+      );
+      console.log(req.file);
+      // res.status(200).json({ image: req.file });
+    } else {
+      res.status(400).send({
+        status: false,
+        data: "File not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};

@@ -11,7 +11,7 @@ export const getReviews = (req: any, res: any) => {
 export const getReviewById = (req: any, res: any) => {
   const productId = req.params.id;
   sql.query(
-    `SELECT customer_reviews.*, users.name FROM customer_reviews INNER JOIN users ON customer_reviews.user_id = users.user_id WHERE customer_reviews.product_id=${productId}`,
+    `SELECT customer_reviews.*, users.name, users.avatar FROM customer_reviews INNER JOIN users ON customer_reviews.user_id = users.user_id WHERE customer_reviews.product_id=${productId}`,
     (err: any, rows: any) => {
       if (err) throw err;
       res.json({ status: 200, rows });
