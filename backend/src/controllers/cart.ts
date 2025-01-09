@@ -5,7 +5,7 @@ export const getCart = (req: any, res: any) => {
   const token = req.headers.authorization.split(" ")[1];
   const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   const userId = decoded.id;
-  console.log(userId,"USERiDDETAIL")
+  console.log(userId,"USERiDDETAILddd")
 
   sql.query(
     `select * from Cart where user_id=${userId}`,
