@@ -32,7 +32,7 @@ export const getProductByCategory = (req: any, res: any) => {
     FROM products
     LEFT JOIN customer_reviews
     ON products.item_id = customer_reviews.product_id
-    WHERE products.category="${productCategory}"
+    WHERE products.category='${productCategory}'
     GROUP BY products.item_id`,
     (err: any, rows: any) => {
       if (err) throw err;

@@ -15,8 +15,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(routes);
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded payloads
 app.use("/public/uploads", express.static(process.cwd() + "/public/uploads"));
+app.use(routes);
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
