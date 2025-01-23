@@ -6,6 +6,7 @@ const routes = require("./routes");
 
 const app: any = express();
 
+
 const corsOptions = {
   origin: "*",
   credentials: true,

@@ -47,7 +47,7 @@ const { Router } = require("express");
 // Controllers
 const home = require("../controllers/index");
 const product = require("../controllers/product");
-const auth = require("../controllers/auth");
+const auth = require("../controllers/auth.ts");
 const cart = require("../controllers/cart");
 const user = require("../controllers/user");
 const stripe = require("../controllers/stripe");
@@ -67,7 +67,7 @@ router.get("/product/:id", product.getProductById);
 router.get("/category/:category", product.getProductByCategory);
 
 /** Authentication Routes */
-router.post("/auth/signup", auth.signUp);
+router.post("/auth/signup",auth.signUp);
 router.post("/auth/signin", auth.signIn);
 
 /** Cart Routes */
